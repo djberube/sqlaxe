@@ -1,0 +1,130 @@
+README.md
+
+# SQLAxe
+
+Eventually, SQLAxe will be a jq-like tool for manipulating SQL files. 
+
+However, for now, SQLAxe is a command-line tool implementing the following commands:
+
+1. `split`, for splitting large SQL files into smaller, more manageable files based on the SQL statements they contain. It supports various SQL dialects and provides options for pretty printing and specifying the output directory.
+
+2. `pp`, which re-formats SQL files. It can also transpile from one format to another if you specify different `--dialect` and `--output-dialect` formats.
+
+![SQLAxe Demo](demo.gif)
+
+```
+                                        db                         
+                                       d88b                        
+    ad88888ba    ,ad8888ba,   88      d8'`8b                       
+   d8"     "8b  d8"'    `"8b  88     d8'  `8b                      
+   Y8,         d8'        `8b 88    d8YaaaaY8b                     
+   `Y8aaaaa,   88          88 88   d8''''''''8b                    
+     `"""""8b, 88          88 88  d8'     8b,`bb  ,d8 ,adPPYba,    
+           `8b Y8,    "88,,8P 88 d8'       `Y8, ,8P' a8P_____88    
+   Y8a     a8P  Y8a.    Y88P  88d8           )888(   8PP""""""'    
+    "Y88888P"    `"Y8888Y"Y8a 888888888     d8" "8b, "8b,     ,     
+                                          8P'     `Y8 `"Ybbd8"'    
+```
+                                                                               
+
+## Features
+
+- Split large SQL files into smaller files based on target table.
+- Support for multiple SQL dialects (e.g., MySQL, PostgreSQL)
+- Option to specify the output SQL dialect
+- Customizable output directory
+- Pretty printing of SQL statements
+
+
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/djberube/sqlaxe.git
+   ```
+
+2. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+To split an SQL file using SQLAxe, run the following command:
+
+```
+sqlaxe split sql_file.sql
+```
+
+Arguments:
+- `sql_file`: Path to the SQL file to be split.
+- `--dialect DIALECT`: Input SQL dialect (default: mysql).
+- `--output-dialect OUTPUT_DIALECT`: Output SQL dialect (defaults to the input dialect).
+- `--output-directory OUTPUT_DIRECTORY`: Output directory (defaults to sqlaxe_INPUT_FILENAME, without the extension).
+- `--pretty`: Enable pretty printing of SQL statements (default: off).
+
+Example:
+```
+python sqlaxe.py path/to/your/file.sql --dialect mysql --output-dialect postgresql --output-directory output_files --pretty
+```
+
+
+To pretty print a SQL file, run the following command:
+
+```
+sqlaxe pp sql_file.sql 
+```
+
+Arguments:
+- `sql_file`: Path to the SQL file to be split.
+- `--dialect DIALECT`: Input SQL dialect (default: mysql).
+- `--output-dialect OUTPUT_DIALECT`: Output SQL dialect (defaults to the input dialect).
+
+## Output
+
+SQLAxe will create an output directory (if not specified, it will default to `sqlaxe_INPUT_FILENAME`) and generate separate SQL files for each SQL statement found in the input file. The output files will be named in the format `NNNN_kind.sql`, where `NNNN` is a four-digit section counter and `kind` is the table name or "general" if no table is found.
+
+## Dependencies
+
+- Python 3.x
+- sqlglot
+- tqdm
+
+## Database Support
+
+- Tested with MySQL and PostgreSQL
+- Supports all the dialects from sqlglot; as of this writing, this includes:
+
+    - athena
+    - bigquery
+    - clickhouse
+    - databricks
+    - doris
+    - drill
+    - duckdb
+    - hive
+    - materialize
+    - mysql
+    - oracle
+    - postgres
+    - presto
+    - prql
+    - redshift
+    - risingwave
+    - snowflake
+    - spark
+    - spark2
+    - sqlite
+    - starrocks
+    - tableau
+    - teradata
+    - trino
+    - tsql
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request.
