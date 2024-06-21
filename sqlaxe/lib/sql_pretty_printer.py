@@ -22,9 +22,9 @@ class SQLPrettyPrinter:
                 continue
 
             if self.output_dialect != self.dialect:
-                pretty_printed_statement = write.generate(sql_statement, copy=False, pretty=True)
+                pretty_printed_statement = write.generate(sql_statement, copy=False, pretty=True, identify=True)
             else:
-                pretty_printed_statement = sql_statement.sql(pretty=True)
+                pretty_printed_statement = sql_statement.sql(pretty=True, identify=True)
 
             pretty_printed_statements.append(pretty_printed_statement)
 

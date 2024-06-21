@@ -38,6 +38,14 @@ However, for now, SQLAxe is a command-line tool implementing the following comma
 
 ## Installation
 
+pip installation (recommended):
+
+`
+pip install git+https://github.com/djberube/sqlaxe
+`
+
+Manual installation:
+
 1. Clone the repository:
    ```
    git clone https://github.com/djberube/sqlaxe.git
@@ -46,7 +54,7 @@ However, for now, SQLAxe is a command-line tool implementing the following comma
 2. Install the required dependencies:
    ```
    pip install -r requirements.txt
-   ```
+
 
 ## Usage
 
