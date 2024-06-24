@@ -33,5 +33,5 @@ class SQLPrettyPrinter:
     def format(self, sql_content):
 
 
-        return ';\n'.join(self.pretty_print_statements(sql_content)) + ';'
+        return ';\n\n'.join(self.pretty_print_statements(sql_content)) + ';'
 

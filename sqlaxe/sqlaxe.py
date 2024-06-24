@@ -57,13 +57,15 @@ def pp(sql_file, dialect, output_dialect):
 @click.argument("pattern", type=str)
 @click.option("--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)")
 @click.option("--output-dialect", type=str, default=None, help="output SQL dialect (defaults to --dialect)")
+@click.option("--invert/--no-invert", default=False, help="inverts match, so that only non-matching lines appear")
 
-def grep(sql_file, pattern, dialect, output_dialect):
+def grep(sql_file, pattern, dialect, output_dialect, invert):
     log("reading file")
     with open(sql_file, "r") as file:
         sql_content = file.read()
 
-    pretty_printer = SQLGrep(pattern=pattern, dialect=dialect, output_dialect=output_dialect)
+    log(output_dialect)
+    pretty_printer = SQLGrep(pattern=pattern, dialect=dialect, output_dialect=output_dialect, invert=invert)
     pretty_sql = pretty_printer.format(sql_content)
 
     print(pretty_sql)
