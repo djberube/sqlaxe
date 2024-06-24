@@ -7,6 +7,7 @@ from sqlglot.tokens import Token
 
 import context
 import sqlglot
+
 from lib.sql_splitter import SQLSplitter 
 
 class TestSQLSplitter(unittest.TestCase):

@@ -1,7 +1,13 @@
 import os
 import click
+
 from sqlaxe.lib.sql_splitter import SQLSplitter
 from sqlaxe.lib.sql_pretty_printer import SQLPrettyPrinter
+from sqlaxe.lib.sql_grep import SQLGrep
+from sqlaxe.lib.logger import log
+
+import sys
+
 
 @click.group()
 def main():
@@ -46,5 +52,24 @@ def pp(sql_file, dialect, output_dialect):
     print(pretty_sql)
 
 
+@main.command()
+@click.argument("sql_file", type=click.Path(exists=True))
+@click.argument("pattern", type=str)
+@click.option("--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)")
+@click.option("--output-dialect", type=str, default=None, help="output SQL dialect (defaults to --dialect)")
+
+def grep(sql_file, pattern, dialect, output_dialect):
+    print(">> reading file")
+    with open(sql_file, "r") as file:
+        sql_content = file.read()
+
+    pretty_printer = SQLGrep(pattern=pattern, dialect=dialect, output_dialect=output_dialect)
+    pretty_sql = pretty_printer.format(sql_content)
+
+    print(pretty_sql)
+
+
+if __name__ == "__main__":
+    main()
 if __name__ == "__main__":
     main()

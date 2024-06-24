@@ -8,7 +8,7 @@ class SQLPrettyPrinter:
         self.dialect = kwargs['dialect']
         self.output_dialect = kwargs['output_dialect'] or self.dialect
 
-    def format(self, sql_content):
+    def pretty_print_statements(self, sql_content):
 
         input_dialect_obj = Dialect.get_or_raise(self.dialect)
         tokens = input_dialect_obj.tokenize(sql_content)
@@ -28,5 +28,10 @@ class SQLPrettyPrinter:
 
             pretty_printed_statements.append(pretty_printed_statement)
 
-        return ';\n'.join(pretty_printed_statements) + ';'
+        return pretty_printed_statements
+
+    def format(self, sql_content):
+
+
+        return ';\n'.join(self.pretty_print_statements(sql_content)) + ';'
 
