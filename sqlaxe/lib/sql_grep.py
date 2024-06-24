@@ -1,7 +1,7 @@
 import argparse
 import sqlglot
 from sqlglot import Dialect
-from lib.sql_pretty_printer import SQLPrettyPrinter
+from .sql_pretty_printer import SQLPrettyPrinter
 
 class SQLGrep(SQLPrettyPrinter):
 
