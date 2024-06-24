@@ -56,7 +56,7 @@ Manual installation:
    pip install -r requirements.txt
 
 
-## Usage
+## Usage : Split
 
 To split an SQL file using SQLAxe, run the following command:
 
@@ -76,8 +76,13 @@ Example:
 python sqlaxe.py path/to/your/file.sql --dialect mysql --output-dialect postgresql --output-directory output_files --pretty
 ```
 
+### Output
 
-To pretty print a SQL file, run the following command:
+SQLAxe will create an output directory (if not specified, it will default to `sqlaxe_INPUT_FILENAME`) and generate separate SQL files for each SQL statement found in the input file. The output files will be named in the format `NNNN_kind.sql`, where `NNNN` is a four-digit section counter and `kind` is the table name or "general" if no table is found.
+
+## Usage: Pretty Print
+
+To pretty print a SQL file, run a command like this:
 
 ```
 sqlaxe pp sql_file.sql 
@@ -88,9 +93,16 @@ Arguments:
 - `--dialect DIALECT`: Input SQL dialect (default: mysql).
 - `--output-dialect OUTPUT_DIALECT`: Output SQL dialect (defaults to the input dialect).
 
-## Output
 
-SQLAxe will create an output directory (if not specified, it will default to `sqlaxe_INPUT_FILENAME`) and generate separate SQL files for each SQL statement found in the input file. The output files will be named in the format `NNNN_kind.sql`, where `NNNN` is a four-digit section counter and `kind` is the table name or "general" if no table is found.
+## Usage: grep
+
+To grep a SQL file, run a command like this:
+
+```
+sqlaxe grep sql_file.sql PATTERN
+```
+
+SQLAxe's grep command is statement oriented, so an entire statement will be printed if it contains PATTERN anywhere within it. This is contrast to the unix grep command, which is line-oriented by default. (Unix grep can be configured with switches to treat, say, NULL as a line terminator - but because SQLAxe parses SQL using sqlglot, it won't be fooled by line terminators or even semicolons inside strings.)
 
 ## Dependencies
 
