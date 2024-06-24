@@ -10,6 +10,8 @@ However, for now, SQLAxe is a command-line tool implementing the following comma
 
 2. `pp`, which re-formats SQL files. It can also transpile from one format to another if you specify different `--dialect` and `--output-dialect` formats.
 
+3. `grep`, which filters SQL files similar to unix `grep`. However, instead of being line-oriented, it parses the SQL file using sqlglot and searches entire statements. If text anywhere in a statement matches, the entire statement is printed out - instead of just the matching line. 
+
 ![SQLAxe Demo](demo.gif)
 
 ```
