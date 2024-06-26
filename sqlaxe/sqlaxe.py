@@ -53,7 +53,7 @@ def pp(sql_file, dialect, output_dialect):
 
 
 @main.command()
-@click.argument("sql_file", type=click.Path(exists=True))
+@click.argument("sql_file", type=click.File('r'))
 @click.argument("pattern", type=str)
 @click.option("--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)")
 @click.option("--output-dialect", type=str, default=None, help="output SQL dialect (defaults to --dialect)")
@@ -61,8 +61,8 @@ def pp(sql_file, dialect, output_dialect):
 
 def grep(sql_file, pattern, dialect, output_dialect, invert):
     log("reading file")
-    with open(sql_file, "r") as file:
-        sql_content = file.read()
+
+    sql_content = sql_file.read()
 
     log(output_dialect)
     pretty_printer = SQLGrep(pattern=pattern, dialect=dialect, output_dialect=output_dialect, invert=invert)
