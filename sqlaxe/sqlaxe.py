@@ -3,6 +3,7 @@ import click
 
 from .lib.sql_splitter import SQLSplitter
 from .lib.sql_pretty_printer import SQLPrettyPrinter
+from .lib.sql_table_name_replacer import SQLTableNameReplacer
 from .lib.sql_grep import SQLGrep
 from .lib.logger import log
 
@@ -64,11 +65,26 @@ def grep(sql_file, pattern, dialect, output_dialect, invert):
 
     sql_content = sql_file.read()
 
-    log(output_dialect)
     pretty_printer = SQLGrep(pattern=pattern, dialect=dialect, output_dialect=output_dialect, invert=invert)
     pretty_sql = pretty_printer.format(sql_content)
 
     print(pretty_sql)
+
+
+@main.command()
+@click.argument("sql_file", type=click.File('r'))
+@click.argument("table_name_regex", type=str)
+@click.argument("table_name_replacement", type=str)
+@click.option("--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)")
+@click.option("--output-dialect", type=str, default=None, help="output SQL dialect (defaults to --dialect)")
+
+def table_name_replace(sql_file, table_name_regex, table_name_replacement, dialect, output_dialect):
+    log("reading file")
+
+    sql_content = sql_file.read()
+
+    replacer = SQLTableNameReplacer( table_name_regex=table_name_regex, table_name_replacement=table_name_replacement, dialect=dialect, output_dialect=output_dialect, pretty=False )
+    replacer.replace(sql_content)
 
 
 if __name__ == "__main__":

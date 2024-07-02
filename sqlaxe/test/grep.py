@@ -19,6 +19,7 @@ class TestSQLGrep(unittest.TestCase):
             pattern='table1',
             dialect=self.dialect,
             output_dialect=self.output_dialect,
+            invert=False
         )
 
     def tearDown(self):
