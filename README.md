@@ -4,13 +4,17 @@ README.md
 
 Eventually, SQLAxe will be a jq-like tool for manipulating SQL files. 
 
-However, for now, SQLAxe is a command-line tool implementing the following commands:
+However, for now, SQLAxe is a syntax-aware command-line tool implementing the following commands:
 
 1. `split`, for splitting large SQL files into smaller, more manageable files based on the SQL statements they contain. It supports various SQL dialects and provides options for pretty printing and specifying the output directory.
 
 2. `pp`, which re-formats SQL files. It can also transpile from one format to another if you specify different `--dialect` and `--output-dialect` formats.
 
 3. `grep`, which filters SQL files similar to unix `grep`. However, instead of being line-oriented, it parses the SQL file using sqlglot and searches entire statements. If text anywhere in a statement matches, the entire statement is printed out - instead of just the matching line. 
+
+4. `table-name-replace`, which replaces text in table names. It accepts a regular expression for the search text, so you can do something like `sqlaxe table-name-replace ^tbl_ ''`. 
+
+SQLAxe uses sqlglot to parse and output SQL, so it supports a wide variety of dialects of SQL.
 
 ![SQLAxe Demo](demo.gif)
 
@@ -106,6 +110,9 @@ sqlaxe grep sql_file.sql PATTERN
 
 SQLAxe's grep command is statement oriented, so an entire statement will be printed if it contains PATTERN anywhere within it. This is contrast to the unix grep command, which is line-oriented by default. (Unix grep can be configured with switches to treat, say, NULL as a line terminator - but because SQLAxe parses SQL using sqlglot, it won't be fooled by line terminators or even semicolons inside strings.)
 
+## Usage: table-name-replace
+
+To grep a SQL file, run a command like this:
 ## Dependencies
 
 - Python 3.x
@@ -147,6 +154,11 @@ SQLAxe's grep command is statement oriented, so an entire statement will be prin
 
 This project is licensed under the [MIT License](LICENSE).
 
+## Commercial Support
+
+Commercial support for sqlaxe and related tools is available from Durable Programming, LLC. You can contact us at [durableprogramming.com][https://www.durableprogramming.com].
+
 ## Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request.
+
