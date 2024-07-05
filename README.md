@@ -156,7 +156,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Commercial Support
 
-Commercial support for sqlaxe and related tools is available from Durable Programming, LLC. You can contact us at [durableprogramming.com][https://www.durableprogramming.com].
+Commercial support for sqlaxe and related tools is available from Durable Programming, LLC. You can contact us at [durableprogramming.com](https://www.durableprogramming.com).
 
 ## Contributing
 
