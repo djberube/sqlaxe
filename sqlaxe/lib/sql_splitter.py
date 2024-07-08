@@ -6,20 +6,18 @@ from sqlglot import parse, Dialect
 from sqlglot.expressions import Table
 from tqdm import tqdm
 
+
 class SQLSplitter:
-
     def __init__(self, **kwargs):
+        self.dialect = kwargs["dialect"]
 
-        self.dialect = kwargs['dialect']
-
-        self.output_dialect = kwargs['output_dialect'] or self.dialect
-        self.output_directory = kwargs['output_directory'] 
-        self.pretty = kwargs['pretty']
+        self.output_dialect = kwargs["output_dialect"] or self.dialect
+        self.output_directory = kwargs["output_directory"]
+        self.pretty = kwargs["pretty"]
 
         self.section_counter = 0
 
     def split(self, sql_content):
-
         # Get the input dialect object from sqlglot
         input_dialect_obj = Dialect.get_or_raise(self.dialect)
 
@@ -38,7 +36,6 @@ class SQLSplitter:
         chunks: t.List[t.List[Token]] = [[]]
 
         for i, token in enumerate(tqdm(tokens)):
-
             chunks[-1].append(token)
 
             if token.token_type == sqlglot.TokenType.SEMICOLON:
@@ -59,13 +56,11 @@ class SQLSplitter:
 
         # Iterate over each chunk of tokens
         for row in tqdm(chunks):
-
             # Parse the chunk into SQL statements
             sql_statements = parser.parse(raw_tokens=row)
 
             # Process each SQL statement
             for sql_statement in sql_statements:
-
                 if sql_statement == None:
                     continue
 
@@ -105,4 +100,3 @@ class SQLSplitter:
                 last_output_file = output_file
                 last_kind = kind
                 statement_counter += 1
-

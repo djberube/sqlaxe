@@ -14,11 +14,24 @@ import sys
 def main():
     pass
 
+
 @main.command()
 @click.argument("sql_file", type=click.Path(exists=True))
-@click.option("--dialect", type=str, default="mysql", help="Input SQL dialect (default: mysql)")
-@click.option("--output-dialect", type=str, default=None, help="output SQL dialect (defaults to --dialect)")
-@click.option("--output-directory", type=str, default=None, help="output directory (defaults to sqlaxe_INPUT_FILENAME, without the extension)")
+@click.option(
+    "--dialect", type=str, default="mysql", help="Input SQL dialect (default: mysql)"
+)
+@click.option(
+    "--output-dialect",
+    type=str,
+    default=None,
+    help="output SQL dialect (defaults to --dialect)",
+)
+@click.option(
+    "--output-directory",
+    type=str,
+    default=None,
+    help="output directory (defaults to sqlaxe_INPUT_FILENAME, without the extension)",
+)
 def split(sql_file, dialect, output_dialect, output_directory):
     if not output_directory:
         output_directory = "sqlaxe_" + os.path.splitext(os.path.basename(sql_file))[0]
@@ -32,16 +45,23 @@ def split(sql_file, dialect, output_dialect, output_directory):
         dialect=dialect,
         output_dialect=output_dialect,
         output_directory=output_directory,
-        pretty=False
+        pretty=False,
     )
 
     splitter.split(sql_content)
 
+
 @main.command()
 @click.argument("sql_file", type=click.Path(exists=True))
-@click.option("--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)")
-@click.option("--output-dialect", type=str, default=None, help="output SQL dialect (defaults to --dialect)")
-
+@click.option(
+    "--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)"
+)
+@click.option(
+    "--output-dialect",
+    type=str,
+    default=None,
+    help="output SQL dialect (defaults to --dialect)",
+)
 def pp(sql_file, dialect, output_dialect):
     log("reading file")
     with open(sql_file, "r") as file:
@@ -54,36 +74,62 @@ def pp(sql_file, dialect, output_dialect):
 
 
 @main.command()
-@click.argument("sql_file", type=click.File('r'))
+@click.argument("sql_file", type=click.File("r"))
 @click.argument("pattern", type=str)
-@click.option("--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)")
-@click.option("--output-dialect", type=str, default=None, help="output SQL dialect (defaults to --dialect)")
-@click.option("--invert/--no-invert", default=False, help="inverts match, so that only non-matching lines appear")
-
+@click.option(
+    "--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)"
+)
+@click.option(
+    "--output-dialect",
+    type=str,
+    default=None,
+    help="output SQL dialect (defaults to --dialect)",
+)
+@click.option(
+    "--invert/--no-invert",
+    default=False,
+    help="inverts match, so that only non-matching lines appear",
+)
 def grep(sql_file, pattern, dialect, output_dialect, invert):
     log("reading file")
 
     sql_content = sql_file.read()
 
-    pretty_printer = SQLGrep(pattern=pattern, dialect=dialect, output_dialect=output_dialect, invert=invert)
+    pretty_printer = SQLGrep(
+        pattern=pattern, dialect=dialect, output_dialect=output_dialect, invert=invert
+    )
     pretty_sql = pretty_printer.format(sql_content)
 
     print(pretty_sql)
 
 
 @main.command()
-@click.argument("sql_file", type=click.File('r'))
+@click.argument("sql_file", type=click.File("r"))
 @click.argument("table_name_regex", type=str)
 @click.argument("table_name_replacement", type=str)
-@click.option("--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)")
-@click.option("--output-dialect", type=str, default=None, help="output SQL dialect (defaults to --dialect)")
-
-def table_name_replace(sql_file, table_name_regex, table_name_replacement, dialect, output_dialect):
+@click.option(
+    "--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)"
+)
+@click.option(
+    "--output-dialect",
+    type=str,
+    default=None,
+    help="output SQL dialect (defaults to --dialect)",
+)
+def table_name_replace(
+    sql_file, table_name_regex, table_name_replacement, dialect, output_dialect
+):
     log("reading file")
 
     sql_content = sql_file.read()
 
-    replacer = SQLTableNameReplacer( table_name_regex=table_name_regex, table_name_replacement=table_name_replacement, dialect=dialect, output_dialect=output_dialect, pretty=False )
+    replacer = SQLTableNameReplacer(
+        table_name_regex=table_name_regex,
+        table_name_replacement=table_name_replacement,
+        dialect=dialect,
+        output_dialect=output_dialect,
+        pretty=False,
+    )
     replacer.replace(sql_content)
 
 
