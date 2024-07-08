@@ -19,4 +19,7 @@ class SQLGrep(SQLPrettyPrinter):
         else:
             filtered_statements = [stmt for stmt in statements if self.pattern in stmt]
 
-        return ";\n".join(filtered_statements) + ";"
+        if len(filtered_statements) == 0:
+            return ""
+        else:
+            return ";\n".join(filtered_statements) + ";"

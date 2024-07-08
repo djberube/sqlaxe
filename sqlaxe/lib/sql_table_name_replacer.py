@@ -36,7 +36,9 @@ class SQLTableNameReplacer:
         sql_statements = parser.parse(raw_tokens=tokens)
 
         for sql_statement in tqdm(sql_statements, leave=False):
-            if sql_statement == None:
+            if sql_statement is None:
+                continue
+            if sql_statement == "":
                 continue
 
             for node in sql_statement.walk():

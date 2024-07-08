@@ -8,6 +8,10 @@ from .lib.sql_grep import SQLGrep
 from .lib.logger import log
 
 import sys
+import logging
+
+
+logging.getLogger("sqlglot").setLevel(logging.ERROR)
 
 
 @click.group()

@@ -19,6 +19,8 @@ class SQLPrettyPrinter:
         for sql_statement in sql_statements:
             if sql_statement is None:
                 continue
+            if sql_statement == "":
+                continue
 
             if self.output_dialect != self.dialect:
                 pretty_printed_statement = write.generate(
