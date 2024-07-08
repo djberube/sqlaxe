@@ -44,7 +44,13 @@ SQLAxe uses sqlglot to parse and output SQL, so it supports a wide variety of di
 
 ## Installation
 
-pip installation (recommended):
+pip install from pypi (recommended):
+
+`
+pip install sqlaxe
+`
+
+pip installation from github (edge):
 
 `
 pip install git+https://github.com/djberube/sqlaxe
