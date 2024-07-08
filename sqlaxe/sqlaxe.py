@@ -4,6 +4,8 @@ import click
 from .lib.sql_splitter import SQLSplitter
 from .lib.sql_pretty_printer import SQLPrettyPrinter
 from .lib.sql_table_name_replacer import SQLTableNameReplacer
+from .lib.sql_table_truncate import SQLTableTruncate
+from .lib.sql_table_drop import SQLTableDrop
 from .lib.sql_grep import SQLGrep
 from .lib.logger import log
 
@@ -136,6 +138,53 @@ def table_name_replace(
     )
     replacer.replace(sql_content)
 
+@main.command()
+@click.argument("sql_file", type=click.File("r"))
+@click.option(
+    "--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)"
+)
+@click.option(
+    "--output-dialect",
+    type=str,
+    default=None,
+    help="output SQL dialect (defaults to --dialect)",
+)
+
+def table_truncate(sql_file, dialect, output_dialect):
+    log("reading file")
+
+    sql_content = sql_file.read()
+
+    truncator = SQLTableTruncate(
+        dialect=dialect,
+        output_dialect=output_dialect,
+        pretty=False,
+    )
+    print(truncator.format(sql_content))
+
+@main.command()
+@click.argument("sql_file", type=click.File("r"))
+@click.option(
+    "--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)"
+)
+@click.option(
+    "--output-dialect",
+    type=str,
+    default=None,
+    help="output SQL dialect (defaults to --dialect)",
+)
+
+def drop_tables(sql_file, dialect, output_dialect):
+    log("reading file")
+
+    sql_content = sql_file.read()
+
+    truncator = SQLTableDrop(
+        dialect=dialect,
+        output_dialect=output_dialect,
+        pretty=False,
+    )
+    print(truncator.format(sql_content))
 
 if __name__ == "__main__":
     main()
