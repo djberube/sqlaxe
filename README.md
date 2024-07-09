@@ -2,9 +2,9 @@ README.md
 
 # SQLAxe
 
-Eventually, SQLAxe will be a jq-like tool for manipulating SQL files. 
+SQLAxe is a tool for manipulating SQL files. The primary 
 
-However, for now, SQLAxe is a syntax-aware command-line tool implementing the following commands:
+Specifically, SQLAxe is a syntax-aware command-line tool implementing the following commands:
 
 1. `split`, for splitting large SQL files into smaller, more manageable files based on the SQL statements they contain. It supports various SQL dialects and provides options for pretty printing and specifying the output directory.
 
@@ -13,6 +13,8 @@ However, for now, SQLAxe is a syntax-aware command-line tool implementing the fo
 3. `grep`, which filters SQL files similar to unix `grep`. However, instead of being line-oriented, it parses the SQL file using sqlglot and searches entire statements. If text anywhere in a statement matches, the entire statement is printed out - instead of just the matching line. 
 
 4. `table-name-replace`, which replaces text in table names. It accepts a regular expression for the search text, so you can do something like `sqlaxe table-name-replace ^tbl_ ''`. 
+
+4. `table-truncate`, which prepends a TRUNCATE TABLE command before INSERT INTO statements.
 
 SQLAxe uses sqlglot to parse and output SQL, so it supports a wide variety of dialects of SQL.
 
