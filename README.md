@@ -14,7 +14,9 @@ Specifically, SQLAxe is a syntax-aware command-line tool implementing the follow
 
 4. `table-name-replace`, which replaces text in table names. It accepts a regular expression for the search text, so you can do something like `sqlaxe table-name-replace ^tbl_ ''`. 
 
-4. `table-truncate`, which prepends a TRUNCATE TABLE command before INSERT INTO statements.
+4. `table-truncate`, which prepends a TRUNCATE TABLE command before INSERT INTO statements. This allows you to turn database dumps of INSERT INTO... statements into reusable seed files for development which will clear the table on each load, then insert the data. It will only append TRUNCATE TABLE on the first instance of a table being referenced.
+
+4. `table-drop`, which prepends a DROP TABLE IF EXISTS command before CREATE TABLE statements. This is similar to the `--add-drop-table` option from mysqldump, and can be used to add such statements after the run has completed.
 
 SQLAxe uses sqlglot to parse and output SQL, so it supports a wide variety of dialects of SQL.
 

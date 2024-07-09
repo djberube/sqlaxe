@@ -174,7 +174,7 @@ def table_truncate(sql_file, dialect, output_dialect):
     help="output SQL dialect (defaults to --dialect)",
 )
 
-def drop_tables(sql_file, dialect, output_dialect):
+def table_drop(sql_file, dialect, output_dialect):
     log("reading file")
 
     sql_content = sql_file.read()
