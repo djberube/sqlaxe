@@ -2,7 +2,7 @@ README.md
 
 # SQLAxe
 
-SQLAxe is a tool for manipulating SQL files. The primary 
+SQLAxe is a tool for manipulating SQL files. 
 
 Specifically, SQLAxe is a syntax-aware command-line tool implementing the following commands:
 
