@@ -22,8 +22,10 @@ class SQLTableDrop:
             if sql_statement == "":
                 continue
 
-            if isinstance(sql_statement, sqlglot.expressions.Create) and sql_statement.kind == 'TABLE':
-
+            if (
+                isinstance(sql_statement, sqlglot.expressions.Create)
+                and sql_statement.kind == "TABLE"
+            ):
                 table_name = sql_statement.this.this
                 drop_table_statement = f"DROP TABLE IF EXISTS {table_name} CASCADE"
                 drop_table_tables_statements.append(drop_table_statement)
@@ -40,11 +42,9 @@ class SQLTableDrop:
         return drop_table_tables_statements
 
     def format(self, sql_content):
-
         statements = self.drop_table(sql_content)
 
         if len(statements) == 0:
-            return ''
+            return ""
         else:
-            return ";\n".join(statements) + ';'
-
+            return ";\n".join(statements) + ";"

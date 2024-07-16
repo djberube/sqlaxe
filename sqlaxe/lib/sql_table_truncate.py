@@ -23,7 +23,6 @@ class SQLTableTruncate:
             if sql_statement == "":
                 continue
 
-
             if isinstance(sql_statement, sqlglot.expressions.Insert):
                 table_name = sql_statement.this.this
                 if table_name not in truncated_tables:
@@ -37,21 +36,21 @@ class SQLTableTruncate:
         return truncate_tables_statements
 
     def format(self, sql_content):
-
-
         write = Dialect.get_or_raise(self.output_dialect)
         statements = self.truncate(sql_content)
 
         out = []
         for sql_statement in statements:
             if self.output_dialect != self.dialect:
-                out.append(write.generate(
-                    sql_statement, copy=False, pretty=True, identify=True
-                ))
+                out.append(
+                    write.generate(
+                        sql_statement, copy=False, pretty=True, identify=True
+                    )
+                )
             else:
-                out.append( sql_statement.sql(pretty=True, identify=True) )
+                out.append(sql_statement.sql(pretty=True, identify=True))
 
         if len(out) == 0:
-            return ''
+            return ""
         else:
-            return ";\n".join(out) + ';'
+            return ";\n".join(out) + ";"

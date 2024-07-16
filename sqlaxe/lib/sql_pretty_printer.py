@@ -19,7 +19,7 @@ class SQLPrettyPrinter:
         for sql_statement in sql_statements:
             if sql_statement is None:
                 continue
-            if sql_statement == '':
+            if sql_statement == "":
                 continue
 
             append_semicolon = True
@@ -35,11 +35,11 @@ class SQLPrettyPrinter:
                 pretty_printed_statement = sql_statement.sql(pretty=True, identify=True)
 
             if append_semicolon:
-                pretty_printed_statement = pretty_printed_statement + ';'
+                pretty_printed_statement = pretty_printed_statement + ";"
 
             pretty_printed_statements.append(pretty_printed_statement)
 
         return pretty_printed_statements
 
     def format(self, sql_content):
-        return "\n\n".join(self.pretty_print_statements(sql_content)) 
+        return "\n\n".join(self.pretty_print_statements(sql_content))

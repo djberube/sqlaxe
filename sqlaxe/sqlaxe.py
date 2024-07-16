@@ -138,6 +138,7 @@ def table_name_replace(
     )
     replacer.replace(sql_content)
 
+
 @main.command()
 @click.argument("sql_file", type=click.File("r"))
 @click.option(
@@ -149,7 +150,6 @@ def table_name_replace(
     default=None,
     help="output SQL dialect (defaults to --dialect)",
 )
-
 def table_truncate(sql_file, dialect, output_dialect):
     log("reading file")
 
@@ -162,6 +162,7 @@ def table_truncate(sql_file, dialect, output_dialect):
     )
     print(truncator.format(sql_content))
 
+
 @main.command()
 @click.argument("sql_file", type=click.File("r"))
 @click.option(
@@ -173,7 +174,6 @@ def table_truncate(sql_file, dialect, output_dialect):
     default=None,
     help="output SQL dialect (defaults to --dialect)",
 )
-
 def table_drop(sql_file, dialect, output_dialect):
     log("reading file")
 
@@ -185,6 +185,7 @@ def table_drop(sql_file, dialect, output_dialect):
         pretty=False,
     )
     print(truncator.format(sql_content))
+
 
 if __name__ == "__main__":
     main()
