@@ -35,6 +35,7 @@ class SQLTableNameReplacer:
 
         sql_statements = parser.parse(raw_tokens=tokens)
 
+        output = []
         for sql_statement in tqdm(sql_statements, leave=False):
             if sql_statement is None:
                 continue
@@ -64,9 +65,11 @@ class SQLTableNameReplacer:
                         node.set("table", exp.to_identifier(new_table_name))
 
             if self.output_dialect != self.dialect:
-                print(
+                output.append(
                     write.generate(sql_statement, copy=False, pretty=self.pretty)
-                    + ";\n"
+                    + ";"
                 )
             else:
-                print(sql_statement.sql(pretty=self.pretty) + ";\n")
+                output.append(sql_statement.sql(pretty=self.pretty) + ";")
+        return "\n".join(output)
+

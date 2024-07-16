@@ -31,49 +31,37 @@ class TestSQLTableNameReplacer(unittest.TestCase):
             self.replacer.table_name_replacement, self.table_name_replacement
         )
 
-    @patch("builtins.print")
-    def test_replace_single_table(self, mock_print):
+    def test_replace_single_table(self):
         sql_content = "SELECT * FROM table1;"
-        self.replacer.replace(sql_content)
-        mock_print.assert_called_with("SELECT\n  *\nFROM new_table1 /* table1 */;\n")
+        result = self.replacer.replace(sql_content)
+        self.assertEqual(result, "SELECT\n  *\nFROM new_table1;")
 
-    @patch("builtins.print")
-    def test_replace_multiple_tables(self, mock_print):
+    def test_replace_multiple_tables(self):
         sql_content = "SELECT * FROM table1 JOIN table2 ON table1.id = table2.id;"
-        self.replacer.replace(sql_content)
-        mock_print.assert_called_with(
-            "SELECT\n  *\nFROM new_table1 /* table1 */\nJOIN new_table2 /* table2 */\n ON new_table1.id = new_table2.id;\n"
-        )
+        result = self.replacer.replace(sql_content)
+        self.assertEqual(result, "SELECT\n  *\nFROM new_table1\nJOIN new_table2\n  ON new_table1.id = new_table2.id;")
 
-    @patch("builtins.print")
-    def test_replace_no_match(self, mock_print):
+    def test_replace_no_match(self):
         sql_content = "SELECT * FROM other_table;"
-        self.replacer.replace(sql_content)
-        mock_print.assert_called_with("SELECT\n  *\nFROM other_table;\n")
+        result = self.replacer.replace(sql_content)
+        self.assertEqual(result, "SELECT\n  *\nFROM other_table;")
 
-    @patch("builtins.print")
-    def test_replace_different_output_dialect(self, mock_print):
+    def test_replace_different_output_dialect(self):
         sql_content = "SELECT * FROM table1;"
-        self.replacer.output_dialect = "postgresql"
-        self.replacer.replace(sql_content)
-        mock_print.assert_called_with(
-            'SELECT\n  *\nFROM "new_table1 /* new_table1 */;\n'
-        )
+        self.replacer.output_dialect = "postgres"
+        result = self.replacer.replace(sql_content)
+        self.assertEqual(result, 'SELECT\n  *\nFROM new_table1;')
 
-    @patch("builtins.print")
-    def test_replace_no_pretty(self, mock_print):
+    def test_replace_no_pretty(self):
         sql_content = "SELECT * FROM table1;"
         self.replacer.pretty = False
-        self.replacer.replace(sql_content)
-        mock_print.assert_called_with("SELECT * FROM new_table1 /* table1 */;\n")
+        result = self.replacer.replace(sql_content)
+        self.assertEqual(result, "SELECT * FROM new_table1;")
 
-    @patch("builtins.print")
-    def test_replace_ignore_none_statement(self, mock_print):
+    def test_replace_ignore_none_statement(self):
         sql_content = "SELECT * FROM table1; SELECT invalid sql;"
-        self.replacer.replace(sql_content)
-        mock_print.assert_called_once_with(
-            "SELECT\n  *\nFROM new_table1 /* table1 */;\n"
-        )
+        result = self.replacer.replace(sql_content)
+        self.assertEqual(result, "SELECT\n  *\nFROM new_table1;\nSELECT\n  invalid AS sql;")
 
 
 if __name__ == "__main__":

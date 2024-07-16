@@ -22,4 +22,4 @@ class SQLGrep(SQLPrettyPrinter):
         if len(filtered_statements) == 0:
             return ""
         else:
-            return ";\n".join(filtered_statements) + ";"
+            return "\n".join(filtered_statements) 
