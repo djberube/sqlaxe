@@ -6,10 +6,10 @@ from .sql_parser    import SQLParser
 
 
 class SQLTableDrop:
-    def __init__(self, **kwargs):
+    def __init__(self, dialect='mysql', output_dialect='mysql', **kwargs):
 
-        self.dialect = kwargs["dialect"]
-        self.output_dialect = kwargs["output_dialect"] or self.dialect
+        self.dialect = dialect
+        self.output_dialect = output_dialect or self.dialect
 
         self.sql_parser    = SQLParser(**kwargs)
         self.sql_formatter = SQLFormatter(pretty_print=True, **kwargs)

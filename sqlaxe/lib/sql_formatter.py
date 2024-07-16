@@ -12,6 +12,7 @@ class SQLFormatter:
 
     def get_statements(self, expressions):
 
+        write = Dialect.get_or_raise(self.output_dialect)
         pretty_printed_statements = []
         for expressions in expressions:
             if expressions is None:

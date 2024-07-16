@@ -5,8 +5,8 @@ from sqlglot import Dialect, Expression, exp
 
 
 class SQLParser:
-    def __init__(self, **kwargs):
-        self.dialect = kwargs["dialect"]
+    def __init__(self, dialect='mysql', **kwargs):
+        self.dialect = dialect
 
     def parse(self, sql_content):
         input_dialect_obj = Dialect.get_or_raise(self.dialect)

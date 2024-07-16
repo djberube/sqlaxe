@@ -1,10 +1,9 @@
 import unittest
 from unittest.mock import patch
-import context
 import sqlglot
 from sqlglot import Dialect
 from sqlglot.expressions import Table, Create
-from lib.sql_table_drop import SQLTableDrop
+from sqlaxe.lib.sql_table_drop import SQLTableDrop
 
 
 class TestSQLTableDrop(unittest.TestCase):
@@ -19,7 +18,8 @@ class TestSQLTableDrop(unittest.TestCase):
         sql_content = "CREATE TABLE mytable (id INT);"
         result = self.table_drop.drop_table(sql_content)
         self.assertEqual(
-            result, ["DROP TABLE IF EXISTS mytable CASCADE", "CREATE TABLE mytable (id INT)"]
+            result,
+            ["DROP TABLE IF EXISTS mytable CASCADE", "CREATE TABLE mytable (id INT)"],
         )
 
     def test_drop_table_multiple_create_table(self):
@@ -41,18 +41,20 @@ class TestSQLTableDrop(unittest.TestCase):
         self.assertEqual(result, ["SELECT * FROM mytable"])
 
     def test_drop_table_different_output_dialect(self):
-        self.table_drop = SQLTableDrop(output_dialect = "postgres")
+        self.table_drop = SQLTableDrop(output_dialect="postgres")
         sql_content = "CREATE TABLE mytable (id INT);"
         result = self.table_drop.drop_table(sql_content)
         self.assertEqual(
-            result, ["DROP TABLE IF EXISTS mytable CASCADE", "CREATE TABLE mytable (id INT)"]
+            result,
+            ["DROP TABLE IF EXISTS mytable CASCADE", "CREATE TABLE mytable (id INT)"],
         )
 
     def test_format_single_create_table(self):
         sql_content = "CREATE TABLE mytable (id INT);"
         result = self.table_drop.format(sql_content)
         self.assertEqual(
-            result, "DROP TABLE IF EXISTS mytable CASCADE;\nCREATE TABLE mytable (id INT);"
+            result,
+            "DROP TABLE IF EXISTS mytable CASCADE;\nCREATE TABLE mytable (id INT);",
         )
 
     def test_format_multiple_create_table(self):

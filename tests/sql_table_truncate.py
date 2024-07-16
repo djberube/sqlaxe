@@ -1,10 +1,9 @@
 import unittest
 from unittest.mock import patch
-import context
 import sqlglot
 from sqlglot import Dialect
 from sqlglot.expressions import Table, Insert, TruncateTable, Select
-from lib.sql_table_truncate import SQLTableTruncate
+from sqlaxe.lib.sql_table_truncate import SQLTableTruncate
 
 
 class TestSQLTableTruncate(unittest.TestCase):

@@ -3,8 +3,7 @@ import re
 from unittest.mock import patch
 from sqlglot import Dialect
 from sqlglot.expressions import Table
-import context
-from lib.sql_table_name_replacer import SQLTableNameReplacer
+from sqlaxe.lib.sql_table_name_replacer import SQLTableNameReplacer
 
 
 class TestSQLTableNameReplacer(unittest.TestCase):
@@ -39,7 +38,10 @@ class TestSQLTableNameReplacer(unittest.TestCase):
     def test_replace_multiple_tables(self):
         sql_content = "SELECT * FROM table1 JOIN table2 ON table1.id = table2.id;"
         result = self.replacer.replace(sql_content)
-        self.assertEqual(result, "SELECT\n  *\nFROM new_table1\nJOIN new_table2\n  ON new_table1.id = new_table2.id;")
+        self.assertEqual(
+            result,
+            "SELECT\n  *\nFROM new_table1\nJOIN new_table2\n  ON new_table1.id = new_table2.id;",
+        )
 
     def test_replace_no_match(self):
         sql_content = "SELECT * FROM other_table;"
@@ -50,7 +52,7 @@ class TestSQLTableNameReplacer(unittest.TestCase):
         sql_content = "SELECT * FROM table1;"
         self.replacer.output_dialect = "postgres"
         result = self.replacer.replace(sql_content)
-        self.assertEqual(result, 'SELECT\n  *\nFROM new_table1;')
+        self.assertEqual(result, "SELECT\n  *\nFROM new_table1;")
 
     def test_replace_no_pretty(self):
         sql_content = "SELECT * FROM table1;"
@@ -61,7 +63,9 @@ class TestSQLTableNameReplacer(unittest.TestCase):
     def test_replace_ignore_none_statement(self):
         sql_content = "SELECT * FROM table1; SELECT invalid sql;"
         result = self.replacer.replace(sql_content)
-        self.assertEqual(result, "SELECT\n  *\nFROM new_table1;\nSELECT\n  invalid AS sql;")
+        self.assertEqual(
+            result, "SELECT\n  *\nFROM new_table1;\nSELECT\n  invalid AS sql;"
+        )
 
 
 if __name__ == "__main__":

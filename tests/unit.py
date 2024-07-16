@@ -2,9 +2,7 @@ import unittest
 import os
 import shutil
 
-import context
-
-from lib.sql_splitter import SQLSplitter
+from sqlaxe.lib.sql_splitter import SQLSplitter
 
 
 class TestSQLSplitter(unittest.TestCase):
