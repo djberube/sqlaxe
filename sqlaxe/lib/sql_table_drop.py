@@ -1,22 +1,27 @@
 import argparse
 import sqlglot
 from sqlglot import Dialect
+from .sql_formatter import SQLFormatter
+from .sql_parser    import SQLParser
 
 
 class SQLTableDrop:
     def __init__(self, **kwargs):
+
         self.dialect = kwargs["dialect"]
         self.output_dialect = kwargs["output_dialect"] or self.dialect
 
+        self.sql_parser    = SQLParser(**kwargs)
+        self.sql_formatter = SQLFormatter(pretty_print=True, **kwargs)
+
     def drop_table(self, sql_content):
-        input_dialect_obj = Dialect.get_or_raise(self.dialect)
-        tokens = input_dialect_obj.tokenize(sql_content)
-        parser = input_dialect_obj.parser(error_level=sqlglot.errors.ErrorLevel.IGNORE)
-        sql_statements = parser.parse(raw_tokens=tokens)
+
         write = Dialect.get_or_raise(self.output_dialect)
 
         drop_table_tables_statements = []
-        for sql_statement in sql_statements:
+
+        expressions = self.sql_parser.parse(sql_content)
+        for sql_statement in expressions:
             if sql_statement is None:
                 continue
             if sql_statement == "":

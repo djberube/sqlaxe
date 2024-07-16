@@ -13,6 +13,7 @@ class SQLSplitter:
 
         self.output_dialect = kwargs["output_dialect"] or self.dialect
         self.output_directory = kwargs["output_directory"]
+
         self.pretty = kwargs["pretty"]
 
         self.section_counter = 0
@@ -22,10 +23,7 @@ class SQLSplitter:
         input_dialect_obj = Dialect.get_or_raise(self.dialect)
 
         # Tokenize the SQL content using the input dialect
-        print(">> tokenizing")
         tokens = input_dialect_obj.tokenize(sql_content)
-
-        print(">> done tokenizing")
 
         last_kind = None
         last_output_file = None

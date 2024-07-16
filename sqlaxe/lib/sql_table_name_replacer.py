@@ -2,6 +2,8 @@ import os
 import argparse
 import sqlglot
 import re
+from .sql_formatter import SQLFormatter
+from .sql_parser    import SQLParser
 
 from sqlglot import parse, Dialect
 from sqlglot import expressions as exp
@@ -23,11 +25,7 @@ class SQLTableNameReplacer:
     def replace(self, sql_content):
         input_dialect_obj = Dialect.get_or_raise(self.dialect)
 
-        log("tokenizing")
-
         tokens = input_dialect_obj.tokenize(sql_content)
-
-        log("done tokenizing")
 
         parser = input_dialect_obj.parser(error_level=sqlglot.errors.ErrorLevel.IGNORE)
 
