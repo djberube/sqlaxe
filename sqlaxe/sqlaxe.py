@@ -22,7 +22,7 @@ def main():
 
 
 @main.command()
-@click.argument("sql_file", type=click.Path(exists=True))
+@click.argument("sql_file", type=click.File())
 @click.option(
     "--dialect", type=str, default="mysql", help="Input SQL dialect (default: mysql)"
 )
@@ -43,8 +43,7 @@ def split(sql_file, dialect, output_dialect, output_directory):
         output_directory = "sqlaxe_" + os.path.splitext(os.path.basename(sql_file))[0]
 
     log("reading file")
-    with open(sql_file, "r") as file:
-        sql_content = file.read()
+    sql_content = sql_file.read()
 
     splitter = SQLSplitter(
         sql_file=sql_file,
@@ -58,7 +57,7 @@ def split(sql_file, dialect, output_dialect, output_directory):
 
 
 @main.command()
-@click.argument("sql_file", type=click.Path(exists=True))
+@click.argument("sql_file", type=click.File())
 @click.option(
     "--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)"
 )
@@ -70,8 +69,7 @@ def split(sql_file, dialect, output_dialect, output_directory):
 )
 def pp(sql_file, dialect, output_dialect):
     log("reading file")
-    with open(sql_file, "r") as file:
-        sql_content = file.read()
+    sql_content = sql_file.read()
 
     pretty_printer = SQLPrettyPrinter(dialect=dialect, output_dialect=output_dialect)
     pretty_sql = pretty_printer.format(sql_content)
