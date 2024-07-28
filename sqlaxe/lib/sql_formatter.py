@@ -32,6 +32,9 @@ class SQLFormatter:
             else:
                 pretty_printed_statement = expressions.sql(pretty=self.pretty_print, identify=True)
 
+            if pretty_printed_statement.strip() == '':
+                continue
+
             if append_semicolon:
                 pretty_printed_statement = pretty_printed_statement + ";"
 

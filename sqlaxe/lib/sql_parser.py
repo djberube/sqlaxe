@@ -2,6 +2,7 @@ import argparse
 import sqlglot
 from tqdm import tqdm
 from sqlglot import Dialect, Expression, exp
+from .logger import log
 
 
 class SQLParser:
@@ -11,8 +12,7 @@ class SQLParser:
     def parse(self, sql_content):
         input_dialect_obj = Dialect.get_or_raise(self.dialect)
         tokens = input_dialect_obj.tokenize(sql_content)
-        parser = input_dialect_obj.parser(error_level=sqlglot.errors.ErrorLevel.IGNORE)
-        sql_statements = parser.parse(raw_tokens=tokens)
+        parser = input_dialect_obj.parser() 
 
         # Get the input dialect object from sqlglot
         input_dialect_obj = Dialect.get_or_raise(self.dialect)
@@ -35,7 +35,7 @@ class SQLParser:
         statement_counter = 0
 
         # Create a parser object for the input dialect
-        parser = input_dialect_obj.parser(error_level=sqlglot.errors.ErrorLevel.IGNORE)
+        parser = input_dialect_obj.parser()
 
         remainder = iter(tokens)
 
@@ -43,7 +43,13 @@ class SQLParser:
         # Iterate over each chunk of tokens
         for row in tqdm(chunks):
             # Parse the chunk into SQL statements
-            sql_statements = parser.parse(raw_tokens=row)
+            try:
+                sql_statements = parser.parse(raw_tokens=row)
+            except sqlglot.errors.ParseError as e:
+
+                log('error during parsing - possible wrong dialect.')
+                log(e)
+                continue
 
             if sql_statements:
 
