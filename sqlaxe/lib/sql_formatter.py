@@ -4,7 +4,7 @@ from sqlglot import Dialect, Expression, exp
 
 
 class SQLFormatter:
-    def __init__(self, dialect='mysql', output_dialect='mysql', **kwargs):
+    def __init__(self, dialect='', output_dialect='', **kwargs):
 
         self.pretty_print = kwargs['pretty_print'] or True
         self.dialect = dialect
