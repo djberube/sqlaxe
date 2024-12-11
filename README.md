@@ -170,5 +170,4 @@ Commercial support for sqlaxe and related tools is available from Durable Progra
 
 ## Contributing
 
-Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request.
-
+Contributions are welcome! If you find any issues or have suggestions for improvement, please review our [contributing guide](.\CONTRIBUTING.md).

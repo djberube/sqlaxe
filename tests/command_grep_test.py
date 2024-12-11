@@ -22,8 +22,9 @@ class TestSQLGrep(unittest.TestCase):
         test_sql = (
             "SELECT * from table1; SELECT * FROM table2; SELECT \n\t\tid FROM table1;"
         )
-        pattern = "SELECT \* FROM table1"
+        pattern = r"SELECT \* FROM table1"
 
+        # Assuming self.grep.format can take a pattern parameter
         content = self.grep.format(test_sql)
 
         self.assertIn('SELECT\n  *\nFROM "table1";\n', content)
