@@ -120,9 +120,6 @@ sqlaxe grep sql_file.sql PATTERN
 
 SQLAxe's grep command is statement oriented, so an entire statement will be printed if it contains PATTERN anywhere within it. This is contrast to the unix grep command, which is line-oriented by default. (Unix grep can be configured with switches to treat, say, NULL as a line terminator - but because SQLAxe parses SQL using sqlglot, it won't be fooled by line terminators or even semicolons inside strings.)
 
-## Usage: table-name-replace
-
-To grep a SQL file, run a command like this:
 ## Dependencies
 
 - Python 3.x
