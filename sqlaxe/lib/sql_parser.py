@@ -4,10 +4,14 @@ from tqdm import tqdm
 from sqlglot import Dialect, Expression, exp
 from .logger import log
 
+from sqlglot.optimizer.qualify import qualify
+
+
 
 class SQLParser:
-    def __init__(self, dialect='', **kwargs):
+    def __init__(self, dialect='', qualify=False, **kwargs):
         self.dialect = dialect
+        self.qualify = qualify
 
     def parse(self, sql_content):
         input_dialect_obj = Dialect.get_or_raise(self.dialect)
@@ -54,6 +58,8 @@ class SQLParser:
             if sql_statements:
 
                 for statement in sql_statements:
+                    if self.qualify:
+                        statement = qualify(statement, infer_schema=True)
                     output.append(statement)
 
             else:
