@@ -27,6 +27,7 @@ from sqlaxe.lib.sql_table_drop import SQLTableDrop
 from sqlaxe.lib.sql_table_name_replacer import SQLTableNameReplacer
 from sqlaxe.lib.sql_table_truncate import SQLTableTruncate
 from sqlaxe.lib.sql_list_fields import SQLListFields
+from sqlaxe.lib.sql_list_tables import SQLListTables
 
 # Set logging level for sqlglot to ERROR
 logging.getLogger("sqlglot").setLevel(logging.ERROR)
@@ -216,6 +217,27 @@ def list_fields(sql_file: TextIO, dialect: str, output_format: str) -> None:
         output_format=output_format
     )
     print(list_fields.format(sql_content))
+
+@main.command()
+@click.argument("sql_file", type=click.File("r"))
+@click.option("--dialect", type=str, default="mysql", help="SQL dialect (default: mysql)")
+@click.option("--output-format", type=str, default="csv", help="Output format: csv or jsonl (default: csv)")
+def list_tables(sql_file: TextIO, dialect: str, output_format: str) -> None:
+    """
+    List distinct tables referenced in SQL file.
+    :param sql_file: SQL file to analyze.
+    :param dialect: SQL dialect.
+    :param output_format: Output format (csv or jsonl).
+    """
+    log("reading file")
+    sql_content = sql_file.read()
+
+    # Create SQLListTables instance and extract tables
+    list_tables = SQLListTables(
+        dialect=dialect,
+        output_format=output_format
+    )
+    print(list_tables.format(sql_content))
 
 if __name__ == "__main__":
     main()
