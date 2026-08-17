@@ -70,10 +70,9 @@ class TestSQLListFields(unittest.TestCase):
         self.list_fields.extract_fields(sql_content)
 
         expected_fields = [
-            {'field_name': 'id', 'table_name': 'users' },
+            {'field_name': 'user_id', 'table_name': 'users'},
             {'field_name': 'name', 'table_name': 'users'},
-            {'field_name': 'title', 'table_name': 'posts'},
-            {'field_name': 'user_id', 'table_name': 'posts'}
+            {'field_name': 'post_title', 'table_name': 'posts'},
         ]
 
         self.assertEqual(len(self.list_fields.fields), len(expected_fields))

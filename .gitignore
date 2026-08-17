@@ -169,3 +169,9 @@ cython_debug/
 *.bak
 *.bak
 *.bak
+
+# devenv
+.devenv*
+devenv.local.nix
+.direnv/
+
